@@ -1,0 +1,25 @@
+{
+  "name": "schools_api",
+  "version": "1.0.0",
+  "description": "It's a simple API for CRUD && Searching Operations ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norhan22/Schools_API.git"
+  },
+  "author": "norhan22",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norhan22/Schools_API/issues"
+  },
+  "homepage": "https://github.com/norhan22/Schools_API#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "nodemon": "^2.0.7"
+  }
+}
