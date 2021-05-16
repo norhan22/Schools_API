@@ -23,7 +23,15 @@ function checkValidation (data) {
   if (error) return (error.details.map(d => d.message)).join(',')
   else return true
 }
-
+// Errors
+function errorBadRequest (res, error = '') {
+  res.status(400).send(error || 'Please enter valid Data')
+  
+}
+function errorNotfound (res, error = '') {
+  res.status(404).send(error || 'The school was not found ')
+  
+}
 const methods = {
   
   
@@ -45,7 +53,7 @@ const methods = {
       }
 
       if (searchResult.length) res.send(searchResult)
-      else res.status(404).send('The school was not found ')
+      else errorNotfound(res)
     } else res.send(schools)
   }),
   /////////////////////////////
@@ -56,7 +64,7 @@ const methods = {
       matchedSchool = checkExisting(req.params.id)
   
     if (matchedSchool) res.send(matchedSchool)
-    else res.status(404).send('The school was not found ')
+    else errorNotfound(res)
  
   }),
   /////////////////////////////
@@ -71,9 +79,8 @@ const methods = {
       newSchool.id = schools.length + 1
       schools.push(newSchool)
       res.send(newSchool)
-    } else {
-      res.status(400).send(errors)
-    }
+    } else   errorBadRequest(res, errors)
+ 
 
   }),
   /////////////////////////////
@@ -87,7 +94,7 @@ const methods = {
     if (matchedSchool) {
       schools.splice(matchedSchoolIndex, 1)
       res.send(schools)
-    } else res.status(404).send('The school was not found ')
+    } else errorNotfound(res)
  
   }),
   /////////////////////////////
@@ -112,7 +119,7 @@ const methods = {
        
      
       res.send(schools)
-    } else res.status(400).send(errors)
+    } else errorBadRequest(res, errors)
   })
 }
 
