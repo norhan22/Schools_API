@@ -2,43 +2,22 @@
 const
   express = require('express'),
   path = require('path'),
-  server = express(),
-  port = process.env.PORT || 3000,
+  app = express(),
+  port = process.env.PORT,
   Joi = require('joi'),
-  schools = [
-    {
-      id: 1,
-      name: 'School 1',
-      phone: '012345678',
-      email:'school1@ex.com'
-            
-    },
-    {
-      id: 2,
-      name: 'School 2',
-      phone: '012345678',
-      email:'school2@ex.com'
-            
-    },
-    {
-      id: 3,
-      name: 'School 3',
-      phone: '012345678',
-      email:'school3@ex.com'
-            
-    },
-    {
-      id: 4,
-      name: 'School 4',
-      phone: '012345678',
-      email:'school4@ex.com'
-            
-    }
-  ],
+  schools = require('./modules/schools/models/schools'),
   resource = '/api/schools'
   
-server.listen(port, () => console.log('Listening on port', port))
-server.use(express.json())
+// For reading env variables from .env file
+require('dotenv').config({ debug: process.env.DEBUG })
+
+// App listen 
+app.listen(port, () =>  console.log('Listening on port', port))
+
+/////////////////////////////
+// Middleware Functions
+/////////////////////////////
+app.use(express.json())
 /////////////////////////////
 // Common Function
 /////////////////////////////
@@ -63,13 +42,13 @@ function checkValidation (data) {
 /////////////////////////////
 // App Route
 /////////////////////////////
-server.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'))
 })
 /////////////////////////////
 // Get && search All Schools
 /////////////////////////////
-server.get(`${resource}`, (req, res) => {
+app.get(`${resource}`, (req, res) => {
   const
     hasSearch = Object.keys(req.query).length !== 0,
     searchBy = req.query
@@ -89,7 +68,7 @@ server.get(`${resource}`, (req, res) => {
 /////////////////////////////
 // Get a School by Id
 /////////////////////////////
-server.get(`${resource}/:id`, (req, res) => {
+app.get(`${resource}/:id`, (req, res) => {
   const 
     matchedSchool = checkExisting(req.params.id)
   
@@ -100,7 +79,7 @@ server.get(`${resource}/:id`, (req, res) => {
 /////////////////////////////
 // add school
 /////////////////////////////
-server.post(`${resource}`, (req, res) => {
+app.post(`${resource}`, (req, res) => {
   const newSchool = req.body,
     isValid = typeof checkValidation(newSchool) === 'boolean',
     errors = isValid ? '' : checkValidation(newSchool)
@@ -117,7 +96,7 @@ server.post(`${resource}`, (req, res) => {
 /////////////////////////////
 // Delete school
 /////////////////////////////
-server.delete(`${resource}/:id`, (req, res) => {
+app.delete(`${resource}/:id`, (req, res) => {
   const 
     matchedSchool = checkExisting(req.params.id),
     matchedSchoolIndex = schools.indexOf(matchedSchool)
@@ -131,7 +110,7 @@ server.delete(`${resource}/:id`, (req, res) => {
 /////////////////////////////
 // Update school
 /////////////////////////////
-server.put(`${resource}/:id`, (req, res) => {
+app.put(`${resource}/:id`, (req, res) => {
   const
     schoolId = req.params.id,
     
