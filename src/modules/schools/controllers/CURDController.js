@@ -26,10 +26,6 @@ function checkValidation (data) {
 
 const methods = {
   
-
-  /////////////////////////////
-  // Show Index dir
-  /////////////////////////////
   
   /////////////////////////////
   // Get && search All Schools

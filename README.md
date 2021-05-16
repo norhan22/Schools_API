@@ -6,7 +6,6 @@ into process.env
 
 <br/>
 <br/>
-<br/>
 
 ***
 
@@ -79,3 +78,66 @@ src="https://media.geeksforgeeks.org/wp-content/uploads/project-structure.png">
 <br/>
 
 **** 
+
+## [**Routing**](https://expressjs.com/en/guide/routing.html)
+
+
+- You can create chainable route handlers for a route path by using app.route().
+
+  -  single location, 
+  -  creating modular routes is helpful
+  -  as is reducing redundancy and typos. 
+
+
+-  For more information about routes, see: [Router() documentation.](https://expressjs.com/en/4x/api.html#router)
+
+*example of chained route handlers ( route : `/api/schools` )*
+
+      const
+        express = require('express'),
+        app = express()
+        resource = '/api/schools'
+
+      // chained route
+      app.route(`${resource}`)
+        // Get && search All Schools
+        .get(schoolController.crud.getSchools)
+        // add school
+        .post(schoolController.crud.addSchool)
+
+<br>
+
+- **express.Router** class for creating modular, mountable and chained route handlers
+- **A router object** is an isolated instance of *middleware* and routes.
+
+*example of express route handlers ( route : `/api/schools` )*
+
+      const
+        express = require('express'),
+        app = express()
+        router = express.Router()
+        resource = '/api/schools'
+
+      // chained route
+      router.route(`${resource}`)
+        // Get && search All Schools
+        .get(schoolController.crud.getSchools)
+        // add school
+        .post(schoolController.crud.addSchool)
+
+
+<br/>
+<br/>
+<br/>
+
+
+**** 
+
+## **Middleware** 
+- It's basically a function which accepts `request` and `response`
+objects and a `next()` function. 
+        
+        app.use(function middleware1(req, res, next) {
+          console.log('Middleware 1')
+        next();
+        });
